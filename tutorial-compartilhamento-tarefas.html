@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiztudo — Compartilhamento de Tarefas</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f6f8;
+    color: #1a1a1a;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 20px;
+    color: #49B85A;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: #49B85A;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 16px;
+  }
+
+  .header-tag {
+    margin-left: auto;
+    background: #ede9fe;
+    color: #7c3aed;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #49B85A 0%, #2e9e44 100%);
+    color: #fff;
+    padding: 56px 32px 48px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero p {
+    font-size: 16px;
+    opacity: 0.9;
+    max-width: 520px;
+    margin: 0 auto 28px;
+  }
+
+  .hero-badges {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .hero-badge {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+  }
+
+  /* ── CONTEÚDO ── */
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── INTRO ── */
+  .intro-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 40px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .intro-card h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 11px;
+    color: #9ca3af;
+  }
+
+  .intro-card p {
+    font-size: 15px;
+    color: #374151;
+    margin-bottom: 0;
+  }
+
+  .intro-card strong {
+    color: #49B85A;
+  }
+
+  /* ── SEÇÃO DE PASSO ── */
+  .step-section {
+    margin-bottom: 48px;
+  }
+
+  .step-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .step-number {
+    width: 36px;
+    height: 36px;
+    background: #49B85A;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .step-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .step-subtitle {
+    font-size: 13px;
+    color: #6b7280;
+    margin-top: 1px;
+  }
+
+  .step-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+  }
+
+  .step-body {
+    padding: 24px;
+  }
+
+  .step-body p {
+    font-size: 14px;
+    color: #374151;
+    margin-bottom: 16px;
+  }
+
+  .step-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ── SCREENSHOT ── */
+  .screenshot-wrap {
+    border-top: 1px solid #f3f4f6;
+    padding: 20px;
+    background: #f9fafb;
+    display: flex;
+    justify-content: center;
+  }
+
+  .screenshot-wrap img {
+    max-width: 100%;
+    max-height: 480px;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+    border: 1px solid #e5e7eb;
+  }
+
+  .screenshot-caption {
+    text-align: center;
+    font-size: 12px;
+    color: #9ca3af;
+    padding: 10px 20px 0;
+    font-style: italic;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    display: flex;
+    gap: 12px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: #166534;
+  }
+
+  .callout-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .callout-purple {
+    background: #faf5ff;
+    border-color: #e9d5ff;
+    color: #6b21a8;
+  }
+
+  .callout-blue {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1e40af;
+  }
+
+  /* ── BADGE INLINE ── */
+  .badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    vertical-align: middle;
+  }
+
+  .badge-green { background: #dcfce7; color: #166534; }
+  .badge-purple { background: #ede9fe; color: #7c3aed; }
+  .badge-red { background: #fee2e2; color: #991b1b; }
+  .badge-gray { background: #f3f4f6; color: #374151; }
+
+  /* ── LISTA DE PASSOS ── */
+  .mini-steps {
+    list-style: none;
+    margin: 12px 0;
+  }
+
+  .mini-steps li {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    color: #374151;
+    padding: 6px 0;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .mini-steps li:last-child { border-bottom: none; }
+
+  .mini-step-num {
+    width: 22px;
+    height: 22px;
+    background: #e5e7eb;
+    color: #374151;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── DIVISOR DE SEÇÃO ── */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 40px 0 32px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .section-divider::before,
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e5e7eb;
+  }
+
+  /* ── RESULTADO FINAL ── */
+  .result-card {
+    background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+    border: 1.5px solid #c4b5fd;
+    border-radius: 16px;
+    padding: 28px;
+    text-align: center;
+    margin-top: 48px;
+  }
+
+  .result-card .emoji { font-size: 40px; margin-bottom: 12px; }
+
+  .result-card h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #4c1d95;
+    margin-bottom: 8px;
+  }
+
+  .result-card p {
+    font-size: 14px;
+    color: #6b21a8;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    font-size: 12px;
+    color: #9ca3af;
+    padding: 24px;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  /* ── RESPONSIVO ── */
+  @media (max-width: 600px) {
+    .hero { padding: 40px 20px 36px; }
+    .hero h1 { font-size: 24px; }
+    .container { padding: 28px 16px 60px; }
+    .step-title { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">✓</div>
+    Fiztudo
+  </div>
+  <span class="header-tag">Novo recurso</span>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Compartilhamento de Tarefas</h1>
+  <p>Agora é possível compartilhar uma tarefa do checklist entre dois colaboradores. Quem concluir primeiro registra para os dois.</p>
+  <div class="hero-badges">
+    <span class="hero-badge">👥 Entre colaboradores</span>
+    <span class="hero-badge">✅ Conclusão automática</span>
+    <span class="hero-badge">🔔 Identificação de quem concluiu</span>
+  </div>
+</div>
+
+<!-- CONTEÚDO -->
+<div class="container">
+
+  <!-- INTRO -->
+  <div class="intro-card">
+    <h2>O que é</h2>
+    <p>Com o compartilhamento de tarefas, o gestor pode vincular uma mesma tarefa a dois colaboradores. Quando um deles conclui, a tarefa é marcada como concluída automaticamente para o outro — e o nome de quem executou aparece na tela. <strong>Útil para tarefas que qualquer membro da equipe pode realizar.</strong></p>
+  </div>
+
+  <!-- PASSO 1 -->
+  <div class="step-section">
+    <div class="step-label">
+      <div class="step-number">1</div>
+      <div>
+        <div class="step-title">Acesse os Checklists</div>
+        <div class="step-subtitle">Feito pelo gestor</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-body">
+        <p>Na tela principal do gestor, acesse a aba <strong>Checklists</strong>. Você verá a lista de colaboradores organizados por unidade. Localize o colaborador cuja tarefa deseja compartilhar e clique em <strong>Gerenciar</strong>.</p>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="1784327344309_image.png" alt="Tela de Checklists com lista de colaboradores por unidade">
+      </div>
+      <div class="screenshot-caption">Tela de Checklists — cada colaborador tem botão "Gerenciar"</div>
+    </div>
+  </div>
+
+  <!-- PASSO 2 -->
+  <div class="step-section">
+    <div class="step-label">
+      <div class="step-number">2</div>
+      <div>
+        <div class="step-title">Localize a tarefa e clique em "Compartilhar"</div>
+        <div class="step-subtitle">Feito pelo gestor</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-body">
+        <p>Dentro do checklist do colaborador, cada tarefa agora tem uma linha extra com o botão <span class="badge badge-gray">Compartilhar</span>. Clique nele na tarefa que deseja compartilhar.</p>
+        <div class="callout">
+          <span class="callout-icon">💡</span>
+          <span>O botão fica abaixo dos badges de periodicidade, turno e prioridade — em todas as tarefas da lista.</span>
+        </div>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="1784327362798_image.png" alt="Lista de tarefas com botão Compartilhar em cada card">
+      </div>
+      <div class="screenshot-caption">Cada tarefa exibe o botão "Compartilhar" na segunda linha</div>
+    </div>
+  </div>
+
+  <!-- PASSO 3 -->
+  <div class="step-section">
+    <div class="step-label">
+      <div class="step-number">3</div>
+      <div>
+        <div class="step-title">Selecione com quem compartilhar</div>
+        <div class="step-subtitle">Feito pelo gestor</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-body">
+        <p>Um painel abre diretamente abaixo da tarefa com a lista de pessoas disponíveis para compartilhamento: <strong>administradores</strong>, <strong>líderes da unidade</strong> e <strong>colaboradores da mesma unidade</strong>.</p>
+        <p>Use o campo <em>Buscar por nome...</em> para filtrar rapidamente. Role a lista para ver mais opções.</p>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="1784327383012_image.png" alt="Painel de seleção com busca e lista de checkboxes">
+      </div>
+      <div class="screenshot-caption">Painel inline com busca e lista de candidatos</div>
+    </div>
+  </div>
+
+  <!-- PASSO 4 -->
+  <div class="step-section">
+    <div class="step-label">
+      <div class="step-number">4</div>
+      <div>
+        <div class="step-title">Marque o colaborador e confirme</div>
+        <div class="step-subtitle">Feito pelo gestor</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-body">
+        <p>Marque o checkbox da pessoa com quem deseja compartilhar a tarefa e clique em <strong>Confirmar</strong>.</p>
+        <ul class="mini-steps">
+          <li><span class="mini-step-num">✓</span> Você pode selecionar mais de uma pessoa</li>
+          <li><span class="mini-step-num">✓</span> A gravação acontece imediatamente — não é necessário clicar em "Salvar alterações"</li>
+          <li><span class="mini-step-num">✓</span> Para cancelar sem salvar, clique em <strong>Cancelar</strong></li>
+        </ul>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="1784327404514_image.png" alt="Checkbox marcado para 66 Marcio Aquarismo">
+      </div>
+      <div class="screenshot-caption">Checkbox marcado — clique em "Confirmar" para salvar</div>
+    </div>
+  </div>
+
+  <!-- PASSO 5 -->
+  <div class="step-section">
+    <div class="step-label">
+      <div class="step-number">5</div>
+      <div>
+        <div class="step-title">Compartilhamento ativo — visível nos dois checklists</div>
+        <div class="step-subtitle">Confirmação visual</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-body">
+        <p>Após confirmar, a tarefa exibe na segunda linha: o botão <span class="badge badge-gray">Editar</span>, o botão <span class="badge badge-red">Remover compartilhamento</span> e um <span class="badge badge-purple">badge roxo</span> com o nome do colaborador vinculado.</p>
+        <p>O mesmo badge aparece no checklist do outro colaborador, mostrando quem está compartilhando a tarefa com ele.</p>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="1784327417344_image.png" alt="Tarefa com badge roxo '66 Marcio Aquarismo' e botões Editar e Remover compartilhamento">
+      </div>
+      <div class="screenshot-caption">No checklist de "77 teste teste" — tarefa compartilhada com "66 Marcio Aquarismo"</div>
+      <div class="screenshot-wrap" style="border-top: none; padding-top: 0;">
+        <img src="1784327583877_image.png" alt="No checklist de 66 Marcio Aquarismo — tarefa compartilhada com 77 teste teste">
+      </div>
+      <div class="screenshot-caption">No checklist de "66 Marcio Aquarismo" — o badge mostra "77 teste teste"</div>
+    </div>
+  </div>
+
+  <div class="section-divider">O que o colaborador vê</div>
+
+  <!-- PASSO 6 -->
+  <div class="step-section">
+    <div class="step-label">
+      <div class="step-number">6</div>
+      <div>
+        <div class="step-title">Tarefa aparece normalmente na tela do colaborador</div>
+        <div class="step-subtitle">Visão do colaborador</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-body">
+        <p>Na tela de tarefas do dia, a tarefa compartilhada aparece como qualquer outra — com o botão <strong>Iniciar</strong> disponível para ambos os colaboradores.</p>
+        <div class="callout callout-blue">
+          <span class="callout-icon">ℹ️</span>
+          <span>Qualquer um dos dois pode iniciar e concluir a tarefa. O que acontece a seguir é automático.</span>
+        </div>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="1784327344309_image.png" alt="Tela do colaborador com tarefas do dia" style="max-height:340px;">
+      </div>
+    </div>
+  </div>
+
+  <!-- PASSO 7 -->
+  <div class="step-section">
+    <div class="step-label">
+      <div class="step-number">7</div>
+      <div>
+        <div class="step-title">Um conclui — o outro vê automaticamente</div>
+        <div class="step-subtitle">Resultado final</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-body">
+        <p>Quando o primeiro colaborador conclui a tarefa, ela é marcada como concluída automaticamente para o segundo. Na tela do segundo colaborador, o card aparece riscado com o <span class="badge badge-purple">selo roxo</span> indicando quem executou.</p>
+        <div class="callout callout-purple">
+          <span class="callout-icon">✨</span>
+          <span>O selo <strong>"Concluída por [Nome]"</strong> aparece somente para quem não foi o executor — garantindo clareza sobre quem fez a tarefa.</span>
+        </div>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="1784332592034_image.png" alt="Tela do colaborador 77 com tarefa 'Vender bastante' riscada e selo 'Concluída por 66 Marcio Aquarismo'">
+      </div>
+      <div class="screenshot-caption">Na tela de "77 teste teste" — tarefa concluída por "66 Marcio Aquarismo"</div>
+    </div>
+  </div>
+
+  <!-- RESULTADO FINAL -->
+  <div class="result-card">
+    <div class="emoji">🎉</div>
+    <h3>Pronto! Compartilhamento funcionando.</h3>
+    <p>A tarefa foi configurada uma vez e qualquer membro do grupo pode executar. O Fiztudo cuida do resto.</p>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  Fiztudo v1.24.4 · Tutorial de uso — Compartilhamento de Tarefas
+</div>
+
+</body>
+</html>
